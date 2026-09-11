@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Market | AI Farming</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8f5;
+            color: #1f3d2b;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            background: white;
+            padding: 18px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #16803c;
+        }
+
+        .logo span {
+            color: #222;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #444;
+            margin-left: 18px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #16803c;
+        }
+
+        /* HEADER */
+
+        .header {
+            padding: 50px 7% 30px;
+        }
+
+        .header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 17px;
+        }
+
+        .container {
+            width: 86%;
+            margin: auto;
+        }
+
+        /* SEARCH CARD */
+
+        .search-card {
+            background: white;
+            padding: 30px;
+
+            border-radius: 18px;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .search-card h2 {
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .input-box label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .input-box select,
+        .input-box input {
+            width: 100%;
+            padding: 13px;
+
+            border: 1px solid #ddd;
+            border-radius: 10px;
+
+            font-size: 15px;
+        }
+
+        .input-box select:focus,
+        .input-box input:focus {
+            outline: none;
+            border-color: #16803c;
+        }
+
+        .btn {
+            margin-top: 25px;
+
+            padding: 14px 25px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #16803c;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #10652f;
+        }
+
+        /* PRICE SUMMARY */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 25px;
+
+            border-radius: 16px;
+
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+        }
+
+        .summary-card h3 {
+            color: #777;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card strong {
+            font-size: 28px;
+            color: #16803c;
+        }
+
+        /* MARKET TABLE */
+
+        .market-card {
+            background: white;
+            padding: 30px;
+
+            border-radius: 18px;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .market-card h2 {
+            margin-bottom: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f4f8f5;
+            color: #444;
+        }
+
+        td {
+            color: #555;
+        }
+
+        .price {
+            color: #16803c;
+            font-weight: bold;
+        }
+
+        .trend-up {
+            color: #16803c;
+            font-weight: bold;
+        }
+
+        .trend-down {
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        /* SELLING ESTIMATE */
+
+        .estimate {
+            background: linear-gradient(135deg, #e9f8ed, white);
+
+            border-left: 6px solid #16803c;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            margin-bottom: 30px;
+        }
+
+        .estimate h2 {
+            margin-bottom: 15px;
+        }
+
+        .estimate-value {
+            font-size: 42px;
+            font-weight: bold;
+            color: #16803c;
+
+            margin: 15px 0;
+        }
+
+        .estimate p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* SMART SELLING */
+
+        .smart-selling {
+            background: #183d29;
+
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            margin-bottom: 50px;
+        }
+
+        .smart-selling h2 {
+            margin-bottom: 15px;
+        }
+
+        .smart-selling p {
+            color: #dce9df;
+            line-height: 1.7;
+        }
+
+        .recommendation {
+            margin-top: 20px;
+
+            display: inline-block;
+
+            padding: 12px 18px;
+
+            border-radius: 25px;
+
+            background: white;
+            color: #16803c;
+
+            font-weight: bold;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 768px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 5px 7px;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .form-grid,
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            🌱 AI<span>Farming</span>
+        </div>
+
+        <div>
+
+            <a href="index.html">Home</a>
+
+            <a href="dashboard.html">Dashboard</a>
+
+            <a href="crop.html">Crop AI</a>
+
+            <a href="disease.html">Disease AI</a>
+
+            <a href="irrigation.html">Irrigation</a>
+
+            <a href="fertilizer.html">Fertilizer</a>
+
+            <a href="simulator.html">Simulator</a>
+
+            <a href="weather.html">Weather</a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HEADER -->
+
+    <section class="header">
+
+        <h1>📈 Smart Market</h1>
+
+        <p>
+            Explore crop market information and estimate your potential selling value.
+        </p>
+
+    </section>
+
+
+    <div class="container">
+
+
+        <!-- SEARCH -->
+
+        <div class="search-card">
+
+            <h2>🌾 Enter Crop Details</h2>
+
+            <div class="form-grid">
+
+
+                <div class="input-box">
+
+                    <label>Select Crop</label>
+
+                    <select id="crop">
+
+                        <option value="rice">Rice</option>
+
+                        <option value="cotton">Cotton</option>
+
+                        <option value="maize">Maize</option>
+
+                        <option value="groundnut">Groundnut</option>
+
+                        <option value="millet">Millet</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label>Select Market</label>
+
+                    <select id="market">
+
+                        <option value="local">Local Market</option>
+
+                        <option value="hyderabad">Hyderabad Market</option>
+
+                        <option value="warangal">Warangal Market</option>
+
+                        <option value="nizamabad">Nizamabad Market</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-box">
+
+                    <label>Quantity (Quintals)</label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        placeholder="Example: 10"
+                        min="1">
+
+                </div>
+
+            </div>
+
+
+            <button class="btn" onclick="checkMarket()">
+
+                🤖 Analyze Market
+
+            </button>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+
+            <div class="summary-card">
+
+                <h3>Current Market Price</h3>
+
+                <strong id="currentPrice">
+                    ₹--
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>Price Trend</h3>
+
+                <strong id="trend">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>Market Demand</h3>
+
+                <strong id="demand">
+                    --
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- MARKET TABLE -->
+
+        <div class="market-card">
+
+            <h2>📊 Market Overview</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Crop</th>
+                            <th>Market</th>
+                            <th>Price / Quintal</th>
+                            <th>Trend</th>
+                            <th>Demand</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>Rice</td>
+
+                            <td>Hyderabad</td>
+
+                            <td class="price">₹2,400</td>
+
+                            <td class="trend-up">↑ Rising</td>
+
+                            <td>High</td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Cotton</td>
+
+                            <td>Warangal</td>
+
+                            <td class="price">₹7,100</td>
+
+                            <td class="trend-up">↑ Rising</td>
+
+                            <td>High</td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Maize</td>
+
+                            <td>Nizamabad</td>
+
+                            <td class="price">₹2,200</td>
+
+                            <td>→ Stable</td>
+
+                            <td>Medium</td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Groundnut</td>
+
+                            <td>Local Market</td>
+
+                            <td class="price">₹6,000</td>
+
+                            <td class="trend-down">↓ Falling</td>
+
+                            <td>Medium</td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- SELLING ESTIMATE -->
+
+        <div class="estimate">
+
+            <h2>💰 Estimated Selling Value</h2>
+
+            <p>
+                Based on your selected crop, market and quantity:
+            </p>
+
+            <div class="estimate-value" id="sellingValue">
+                ₹--
+            </div>
+
+            <p id="estimateText">
+                Enter your crop quantity above to calculate an estimate.
+            </p>
+
+        </div>
+
+
+        <!-- SMART SELLING -->
+
+        <div class="smart-selling">
+
+            <h2>🤖 AI Selling Guidance</h2>
+
+            <p id="sellingAdvice">
+
+                Select your crop and market to receive a smart
+                selling recommendation.
+
+            </p>
+
+            <span class="recommendation" id="recommendation">
+
+                Waiting for Analysis
+
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function checkMarket() {
+
+            let crop =
+                document.getElementById("crop").value;
+
+            let market =
+                document.getElementById("market").value;
+
+            let quantity =
+                Number(document.getElementById("quantity").value);
+
+
+            if (quantity <= 0) {
+
+                alert("Please enter a valid quantity.");
+
+                return;
+
+            }
+
+
+            /*
+                DEMO MARKET DATA
+
+                These are sample values for the prototype.
+            */
+
+            let prices = {
+
+                rice: 2400,
+
+                cotton: 7100,
+
+                maize: 2200,
+
+                groundnut: 6000,
+
+                millet: 3200
+
+            };
+
+
+            let price =
+                prices[crop];
+
+
+            let trend = "";
+            let demand = "";
+            let advice = "";
+            let recommendation = "";
+
+
+            /* MARKET LOGIC */
+
+            if (crop === "cotton") {
+
+                trend = "↑ Rising";
+                demand = "High";
+
+                advice =
+                    "Cotton currently shows strong demand in this prototype market scenario. Monitor market prices before selling.";
+
+                recommendation =
+                    "📈 Good Selling Opportunity";
+
+            }
+
+            else if (crop === "rice") {
+
+                trend = "↑ Rising";
+                demand = "High";
+
+                advice =
+                    "Rice shows good demand. Compare nearby market prices before deciding where to sell.";
+
+                recommendation =
+                    "📈 Favorable Market";
+
+            }
+
+            else if (crop === "groundnut") {
+
+                trend = "↓ Falling";
+                demand = "Medium";
+
+                advice =
+                    "Groundnut price is shown as falling in this demo. Consider monitoring prices before selling.";
+
+                recommendation =
+                    "⏳ Monitor Market";
+
+            }
+
+            else {
+
+                trend = "→ Stable";
+                demand = "Medium";
+
+                advice =
+                    "Market conditions appear relatively stable. Compare prices between available markets.";
+
+                recommendation =
+                    "📊 Stable Market";
+
+            }
+
+
+            /* CALCULATE VALUE */
+
+            let total =
+                price * quantity;
+
+
+            /* DISPLAY */
+
+            document.getElementById("currentPrice").innerText =
+                "₹" + price.toLocaleString("en-IN");
+
+
+            document.getElementById("trend").innerText =
+                trend;
+
+
+            document.getElementById("demand").innerText =
+                demand;
+
+
+            document.getElementById("sellingValue").innerText =
+                "₹" + total.toLocaleString("en-IN");
+
+
+            document.getElementById("estimateText").innerText =
+                quantity +
+                " quintal × ₹" +
+                price.toLocaleString("en-IN") +
+                " per quintal.";
+
+
+            document.getElementById("sellingAdvice").innerText =
+                advice;
+
+
+            document.getElementById("recommendation").innerText =
+                recommendation;
+
+
+            /* SCROLL */
+
+            document.getElementById("sellingValue")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

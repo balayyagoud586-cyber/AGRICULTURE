@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Farming AI Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8f4;
+            color: #183b24;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            background: white;
+            padding: 15px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #16803c;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* LANGUAGE */
+
+        #languageSelect {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .voice-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: #16803c;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .voice-btn:hover {
+            background: #0e642d;
+        }
+
+        /* HERO */
+
+        .hero {
+            padding: 45px 6%;
+            background: linear-gradient(120deg, #e8f7ed, #ffffff);
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #607565;
+            font-size: 16px;
+        }
+
+        /* CARDS */
+
+        .container {
+            padding: 30px 6%;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+        }
+
+        .value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #16803c;
+        }
+
+        /* HEALTH */
+
+        .health-section {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .health-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+        }
+
+        .progress {
+            width: 100%;
+            height: 15px;
+            background: #e5e5e5;
+            border-radius: 20px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 87%;
+            height: 100%;
+            background: #16803c;
+        }
+
+        /* ALERT */
+
+        .alert {
+            padding: 14px;
+            background: #fff7dc;
+            border-left: 5px solid #e0a800;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        /* TOOLS */
+
+        .tools {
+            margin-top: 30px;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .tool {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .tool:hover {
+            transform: translateY(-4px);
+        }
+
+        .tool-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        /* AI ASSISTANT */
+
+        .assistant {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            width: 330px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: none;
+            z-index: 200;
+        }
+
+        .assistant-header {
+            background: #16803c;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+        }
+
+        .assistant-body {
+            padding: 15px;
+        }
+
+        .assistant-body p {
+            background: #f1f5f2;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .assistant-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .assistant-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+        }
+
+        .assistant-input button {
+            margin-left: 5px;
+            border: none;
+            background: #16803c;
+            color: white;
+            padding: 10px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .ai-button {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: #16803c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 25px;
+            cursor: pointer;
+            z-index: 150;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 900px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tool-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .health-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .assistant {
+                width: 90%;
+                right: 5%;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        🌱 Smart Farming AI
+    </div>
+
+    <div class="nav-right">
+
+        <select id="languageSelect" onchange="changeLanguage()">
+            <option value="en">🇬🇧 English</option>
+            <option value="te">🇮🇳 తెలుగు</option>
+            <option value="hi">🇮🇳 हिन्दी</option>
+        </select>
+
+        <button class="voice-btn" onclick="speakDashboard()">
+            🔊 Voice
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <h1 id="welcomeText">
+        Welcome, Farmer 👋
+    </h1>
+
+    <p id="subtitleText">
+        Your AI-powered smart farming assistant
+    </p>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<div class="container">
+
+    <div class="cards">
+
+        <div class="card">
+            <h3 id="healthTitle">🌱 Farm Health</h3>
+            <div class="value">87%</div>
+            <p id="healthStatus">Excellent condition</p>
+        </div>
+
+        <div class="card">
+            <h3 id="tempTitle">🌡 Temperature</h3>
+            <div class="value">28°C</div>
+            <p>Normal</p>
+        </div>
+
+        <div class="card">
+            <h3 id="soilTitle">💧 Soil Moisture</h3>
+            <div class="value">72%</div>
+            <p>Good</p>
+        </div>
+
+        <div class="card">
+            <h3 id="rainTitle">🌧 Rain Chance</h3>
+            <div class="value">20%</div>
+            <p>Low rainfall expected</p>
+        </div>
+
+    </div>
+
+
+    <!-- ================= HEALTH + WEATHER ================= -->
+
+    <div class="health-section">
+
+        <div class="health-box">
+
+            <h2 id="farmHealthHeading">
+                AI Farm Health
+            </h2>
+
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+
+            <h3>87%</h3>
+
+            <p id="healthMessage">
+                Your farm is currently in good condition.
+            </p>
+
+        </div>
+
+
+        <div class="health-box">
+
+            <h2 id="weatherHeading">
+                🌤 Today's Weather
+            </h2>
+
+            <br>
+
+            <p>🌡 28°C</p>
+            <p>💧 Humidity: 64%</p>
+            <p>🌧 Rain Chance: 20%</p>
+            <p>💨 Wind: 12 km/h</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ALERTS ================= -->
+
+    <div class="health-box" style="margin-top:30px;">
+
+        <h2 id="alertsHeading">
+            ⚠ Smart Alerts
+        </h2>
+
+        <div class="alert">
+            🌧 <span id="alert1">
+                Low rainfall expected. Check irrigation requirement.
+            </span>
+        </div>
+
+        <div class="alert">
+            🐛 <span id="alert2">
+                Moderate pest risk detected.
+            </span>
+        </div>
+
+        <div class="alert">
+            🌱 <span id="alert3">
+                Crop health is good.
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- ================= TOOLS ================= -->
+
+    <div class="tools">
+
+        <h2 id="toolsHeading">
+            🚜 AI Farming Tools
+        </h2>
+
+        <div class="tool-grid">
+
+            <div class="tool" onclick="openPage('crop.html')">
+                <div class="tool-icon">🌾</div>
+                <b id="cropTool">Crop Recommendation</b>
+            </div>
+
+            <div class="tool" onclick="openPage('disease.html')">
+                <div class="tool-icon">🔬</div>
+                <b id="diseaseTool">Disease Detection</b>
+            </div>
+
+            <div class="tool" onclick="openPage('irrigation.html')">
+                <div class="tool-icon">💧</div>
+                <b id="irrigationTool">Smart Irrigation</b>
+            </div>
+
+            <div class="tool" onclick="openPage('fertilizer.html')">
+                <div class="tool-icon">🧪</div>
+                <b id="fertilizerTool">Fertilizer Advice</b>
+            </div>
+
+            <div class="tool" onclick="openPage('simulator.html')">
+                <div class="tool-icon">🔮</div>
+                <b id="simulatorTool">Future Crop Simulator</b>
+            </div>
+
+            <div class="tool" onclick="openPage('weather.html')">
+                <div class="tool-icon">🌦</div>
+                <b id="weatherTool">Weather & Risk</b>
+            </div>
+
+            <div class="tool" onclick="openPage('market.html')">
+                <div class="tool-icon">📈</div>
+                <b id="marketTool">Market Information</b>
+            </div>
+
+            <div class="tool" onclick="speakDashboard()">
+                <div class="tool-icon">🔊</div>
+                <b id="voiceTool">Voice Assistant</b>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= AI ASSISTANT ================= -->
+
+<button class="ai-button" onclick="toggleAssistant()">
+    🤖
+</button>
+
+
+<div class="assistant" id="assistant">
+
+    <div class="assistant-header">
+        🤖 AI Farming Assistant
+    </div>
+
+    <div class="assistant-body" id="chat">
+
+        <p id="botMessage">
+            Hello! How can I help you with your farm?
+        </p>
+
+    </div>
+
+    <div class="assistant-input">
+
+        <input
+            type="text"
+            id="userInput"
+            placeholder="Ask something..."
+        >
+
+        <button onclick="askAI()">
+            Send
+        </button>
+
+        <button onclick="voiceInput()">
+            🎤
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let selectedLanguage = "en";
+
+
+/* ================= LANGUAGE ================= */
+
+const translations = {
+
+    en: {
+
+        welcome: "Welcome, Farmer 👋",
+        subtitle: "Your AI-powered smart farming assistant",
+
+        healthTitle: "🌱 Farm Health",
+        healthStatus: "Excellent condition",
+
+        tempTitle: "🌡 Temperature",
+        soilTitle: "💧 Soil Moisture",
+        rainTitle: "🌧 Rain Chance",
+
+        farmHealthHeading: "AI Farm Health",
+        healthMessage: "Your farm is currently in good condition.",
+
+        weatherHeading: "🌤 Today's Weather",
+        alertsHeading: "⚠ Smart Alerts",
+
+        alert1: "Low rainfall expected. Check irrigation requirement.",
+        alert2: "Moderate pest risk detected.",
+        alert3: "Crop health is good.",
+
+        toolsHeading: "🚜 AI Farming Tools",
+
+        cropTool: "Crop Recommendation",
+        diseaseTool: "Disease Detection",
+        irrigationTool: "Smart Irrigation",
+        fertilizerTool: "Fertilizer Advice",
+        simulatorTool: "Future Crop Simulator",
+        weatherTool: "Weather & Risk",
+        marketTool: "Market Information",
+        voiceTool: "Voice Assistant"
+    },
+
+
+    te: {
+
+        welcome: "రైతులకు స్వాగతం 👋",
+        subtitle: "మీ AI ఆధారిత స్మార్ట్ వ్యవసాయ సహాయకుడు",
+
+        healthTitle: "🌱 పంట ఆరోగ్యం",
+        healthStatus: "చాలా మంచి స్థితి",
+
+        tempTitle: "🌡 ఉష్ణోగ్రత",
+        soilTitle: "💧 నేల తేమ",
+        rainTitle: "🌧 వర్షం అవకాశం",
+
+        farmHealthHeading: "AI పంట ఆరోగ్యం",
+        healthMessage: "మీ పంట ప్రస్తుతం మంచి స్థితిలో ఉంది.",
+
+        weatherHeading: "🌤 ఈరోజు వాతావరణం",
+        alertsHeading: "⚠ స్మార్ట్ హెచ్చరికలు",
+
+        alert1: "తక్కువ వర్షపాతం వచ్చే అవకాశం ఉంది. నీటి అవసరాన్ని పరిశీలించండి.",
+        alert2: "మధ్యస్థ స్థాయి పురుగు ప్రమాదం గుర్తించబడింది.",
+        alert3: "పంట ఆరోగ్యం బాగుంది.",
+
+        toolsHeading: "🚜 AI వ్యవసాయ సాధనాలు",
+
+        cropTool: "పంట సిఫార్సు",
+        diseaseTool: "వ్యాధి గుర్తింపు",
+        irrigationTool: "స్మార్ట్ నీటిపారుదల",
+        fertilizerTool: "ఎరువుల సలహా",
+        simulatorTool: "భవిష్యత్ పంట సిమ్యులేటర్",
+        weatherTool: "వాతావరణం & ప్రమాదం",
+        marketTool: "మార్కెట్ సమాచారం",
+        voiceTool: "వాయిస్ సహాయకుడు"
+    },
+
+
+    hi: {
+
+        welcome: "किसान, आपका स्वागत है 👋",
+        subtitle: "आपका AI आधारित स्मार्ट खेती सहायक",
+
+        healthTitle: "🌱 फसल स्वास्थ्य",
+        healthStatus: "बहुत अच्छी स्थिति",
+
+        tempTitle: "🌡 तापमान",
+        soilTitle: "💧 मिट्टी की नमी",
+        rainTitle: "🌧 बारिश की संभावना",
+
+        farmHealthHeading: "AI फसल स्वास्थ्य",
+        healthMessage: "आपकी फसल अभी अच्छी स्थिति में है।",
+
+        weatherHeading: "🌤 आज का मौसम",
+        alertsHeading: "⚠ स्मार्ट अलर्ट",
+
+        alert1: "कम बारिश की संभावना है। सिंचाई की आवश्यकता जांचें।",
+        alert2: "मध्यम कीट जोखिम पाया गया है।",
+        alert3: "फसल का स्वास्थ्य अच्छा है।",
+
+        toolsHeading: "🚜 AI खेती के उपकरण",
+
+        cropTool: "फसल सुझाव",
+        diseaseTool: "रोग पहचान",
+        irrigationTool: "स्मार्ट सिंचाई",
+        fertilizerTool: "उर्वरक सलाह",
+        simulatorTool: "भविष्य फसल सिम्युलेटर",
+        weatherTool: "मौसम और जोखिम",
+        marketTool: "बाजार जानकारी",
+        voiceTool: "वॉयस सहायक"
+    }
+
+};
+
+
+/* ================= CHANGE LANGUAGE ================= */
+
+function changeLanguage() {
+
+    selectedLanguage =
+        document.getElementById("languageSelect").value;
+
+    let t = translations[selectedLanguage];
+
+    document.getElementById("welcomeText").innerText = t.welcome;
+    document.getElementById("subtitleText").innerText = t.subtitle;
+
+    document.getElementById("healthTitle").innerText = t.healthTitle;
+    document.getElementById("healthStatus").innerText = t.healthStatus;
+
+    document.getElementById("tempTitle").innerText = t.tempTitle;
+    document.getElementById("soilTitle").innerText = t.soilTitle;
+    document.getElementById("rainTitle").innerText = t.rainTitle;
+
+    document.getElementById("farmHealthHeading").innerText =
+        t.farmHealthHeading;
+
+    document.getElementById("healthMessage").innerText =
+        t.healthMessage;
+
+    document.getElementById("weatherHeading").innerText =
+        t.weatherHeading;
+
+    document.getElementById("alertsHeading").innerText =
+        t.alertsHeading;
+
+    document.getElementById("alert1").innerText = t.alert1;
+    document.getElementById("alert2").innerText = t.alert2;
+    document.getElementById("alert3").innerText = t.alert3;
+
+    document.getElementById("toolsHeading").innerText =
+        t.toolsHeading;
+
+    document.getElementById("cropTool").innerText = t.cropTool;
+    document.getElementById("diseaseTool").innerText = t.diseaseTool;
+    document.getElementById("irrigationTool").innerText = t.irrigationTool;
+    document.getElementById("fertilizerTool").innerText = t.fertilizerTool;
+    document.getElementById("simulatorTool").innerText = t.simulatorTool;
+    document.getElementById("weatherTool").innerText = t.weatherTool;
+    document.getElementById("marketTool").innerText = t.marketTool;
+    document.getElementById("voiceTool").innerText = t.voiceTool;
+
+}
+
+
+/* ================= VOICE ================= */
+
+function speakDashboard() {
+
+    let t = translations[selectedLanguage];
+
+    let text = "";
+
+    if (selectedLanguage === "en") {
+
+        text =
+        "Welcome Farmer. " +
+        "Your farm health is 87 percent. " +
+        "The temperature is 28 degrees Celsius. " +
+        "Soil moisture is 72 percent. " +
+        "Rain chance is 20 percent. " +
+        "Your crop health is good.";
+
+    }
+
+    else if (selectedLanguage === "te") {
+
+        text =
+        "రైతులకు స్వాగతం. " +
+        "మీ పంట ఆరోగ్యం 87 శాతం ఉంది. " +
+        "ఉష్ణోగ్రత 28 డిగ్రీల సెల్సియస్. " +
+        "నేల తేమ 72 శాతం ఉంది. " +
+        "వర్షం వచ్చే అవకాశం 20 శాతం ఉంది. " +
+        "మీ పంట ఆరోగ్యం బాగుంది.";
+
+    }
+
+    else {
+
+        text =
+        "किसान आपका स्वागत है। " +
+        "आपकी फसल का स्वास्थ्य 87 प्रतिशत है। " +
+        "तापमान 28 डिग्री सेल्सियस है। " +
+        "मिट्टी की नमी 72 प्रतिशत है। " +
+        "बारिश की संभावना 20 प्रतिशत है। " +
+        "आपकी फसल का स्वास्थ्य अच्छा है।";
+
+    }
+
+
+    let speech =
+        new SpeechSynthesisUtterance(text);
+
+    speech.lang =
+        selectedLanguage === "te"
+        ? "te-IN"
+        : selectedLanguage === "hi"
+        ? "hi-IN"
+        : "en-IN";
+
+    speech.rate = 0.9;
+    speech.pitch = 1;
+
+    window.speechSynthesis.cancel();
+
+    window.speechSynthesis.speak(speech);
+}
+
+
+/* ================= OPEN PAGES ================= */
+
+function openPage(page) {
+
+    window.location.href = page;
+
+}
+
+
+/* ================= AI ASSISTANT ================= */
+
+function toggleAssistant() {
+
+    let assistant =
+        document.getElementById("assistant");
+
+    if (assistant.style.display === "block") {
+
+        assistant.style.display = "none";
+
+    } else {
+
+        assistant.style.display = "block";
+
+    }
+
+}
+
+
+/* ================= ASK AI ================= */
+
+function askAI() {
+
+    let input =
+        document.getElementById("userInput").value
+        .toLowerCase();
+
+    let response = "";
+
+    if (input.includes("crop")) {
+
+        response =
+        selectedLanguage === "te"
+        ? "మీ నేల మరియు నీటి పరిస్థితుల ఆధారంగా పంటను సిఫార్సు చేయవచ్చు."
+        : selectedLanguage === "hi"
+        ? "आपकी मिट्टी और पानी की स्थिति के आधार पर फसल सुझाई जा सकती है।"
+        : "I can recommend a crop based on your soil and water availability.";
+
+    }
+
+    else if (input.includes("water") ||
+             input.includes("irrigation")) {
+
+        response =
+        selectedLanguage === "te"
+        ? "నేల తేమ తక్కువగా ఉంటే నీటిపారుదల అవసరం."
+        : selectedLanguage === "hi"
+        ? "अगर मिट्टी की नमी कम है तो सिंचाई की आवश्यकता होती है।"
+        : "If soil moisture is low, irrigation may be required.";
+
+    }
+
+    else if (input.includes("fertilizer")) {
+
+        response =
+        selectedLanguage === "te"
+        ? "మట్టిలోని పోషకాల ఆధారంగా సరైన ఎరువును ఎంచుకోండి."
+        : selectedLanguage === "hi"
+        ? "मिट्टी के पोषक तत्वों के आधार पर सही उर्वरक चुनें।"
+        : "Choose fertilizer based on the nutrients available in the soil.";
+
+    }
+
+    else if (input.includes("disease")) {
+
+        response =
+        selectedLanguage === "te"
+        ? "పంట ఆకుల ఫోటోను అప్లోడ్ చేసి వ్యాధిని గుర్తించండి."
+        : selectedLanguage === "hi"
+        ? "फसल के पत्ते की फोटो अपलोड करके रोग की पहचान करें।"
+        : "Upload a crop leaf image to detect possible diseases.";
+
+    }
+
+    else {
+
+        response =
+        selectedLanguage === "te"
+        ? "నేను మీ వ్యవసాయానికి సహాయం చేయడానికి సిద్ధంగా ఉన్నాను."
+        : selectedLanguage === "hi"
+        ? "मैं आपकी खेती में सहायता करने के लिए तैयार हूँ।"
+        : "I am ready to help you with your farming.";
+
+    }
+
+
+    document.getElementById("chat").innerHTML +=
+        "<p>" + response + "</p>";
+
+    document.getElementById("userInput").value = "";
+
+}
+
+
+/* ================= MICROPHONE ================= */
+
+function voiceInput() {
+
+    if (!("webkitSpeechRecognition" in window)) {
+
+        alert("Voice recognition is not supported in this browser.");
+
+        return;
+    }
+
+    let recognition =
+        new webkitSpeechRecognition();
+
+    recognition.lang =
+        selectedLanguage === "te"
+        ? "te-IN"
+        : selectedLanguage === "hi"
+        ? "hi-IN"
+        : "en-IN";
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+
+        let text =
+            event.results[0][0].transcript;
+
+        document.getElementById("userInput").value =
+            text;
+
+    };
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Farming AI - Voice Assistant</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#eef8f0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.voice-box{
+    background:white;
+    width:600px;
+    max-width:90%;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 5px 25px rgba(0,0,0,0.1);
+}
+
+h1{
+    color:#16843b;
+    margin-bottom:15px;
+}
+
+.description{
+    color:#66756a;
+    margin-bottom:20px;
+}
+
+select{
+    padding:12px;
+    font-size:16px;
+    margin:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    background:#16843b;
+    color:white;
+    border:none;
+    padding:15px 30px;
+    border-radius:10px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0f672e;
+}
+
+button:disabled{
+    background:#999;
+    cursor:not-allowed;
+}
+
+#status{
+    margin-top:25px;
+    color:#555;
+}
+
+#question{
+    margin-top:20px;
+    color:#333;
+    font-size:18px;
+}
+
+#answer{
+    margin-top:20px;
+    padding:20px;
+    background:#eef8f0;
+    border-radius:12px;
+    color:#173b24;
+    font-size:18px;
+    line-height:1.6;
+    text-align:left;
+}
+</style>
+</head>
+
+<body>
+
+<div class="voice-box">
+
+    <h1>🌱 Smart Farming AI</h1>
+
+    <p class="description">
+        Ask your farming question using your voice.
+    </p>
+
+    <select id="language">
+        <option value="en-IN">🇬🇧 English</option>
+        <option value="te-IN">🇮🇳 Telugu</option>
+        <option value="hi-IN">🇮🇳 Hindi</option>
+    </select>
+
+    <br>
+
+    <button id="speakButton" onclick="startVoice()">
+        🎤 Speak Now
+    </button>
+
+    <p id="status">
+        Click the button and ask your farming question.
+    </p>
+
+    <div id="question"></div>
+
+    <div id="answer"></div>
+
+</div>
+
+
+<script>
+
+function startVoice(){
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if(!SpeechRecognition){
+
+        alert(
+            "Voice recognition is not supported. Please use Google Chrome."
+        );
+
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    const language =
+        document.getElementById("language").value;
+
+    recognition.lang = language;
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+
+    const button =
+        document.getElementById("speakButton");
+
+    const status =
+        document.getElementById("status");
+
+    const question =
+        document.getElementById("question");
+
+    const answer =
+        document.getElementById("answer");
+
+
+    button.disabled = true;
+    button.innerHTML = "🎤 Listening...";
+
+    status.innerHTML =
+        "🎤 Listening... Please speak your question.";
+
+    question.innerHTML = "";
+    answer.innerHTML = "";
+
+
+    recognition.onresult = function(event){
+
+        const text =
+            event.results[0][0].transcript;
+
+        question.innerHTML =
+            "<b>🗣️ You asked:</b> " + text;
+
+        status.innerHTML =
+            "🤖 Finding the best farming answer...";
+
+
+        const response =
+            getFarmingAnswer(text, language);
+
+
+        answer.innerHTML =
+            "<b>🌱 AI Farming Assistant:</b><br>" +
+            response;
+
+
+        speakAnswer(response, language);
+
+        status.innerHTML =
+            "✅ Answer generated successfully!";
+    };
+
+
+    recognition.onerror = function(event){
+
+        status.innerHTML =
+            "❌ Voice error: " + event.error;
+
+        if(event.error === "not-allowed"){
+
+            alert(
+                "Please allow microphone permission in Chrome."
+            );
+        }
+    };
+
+
+    recognition.onend = function(){
+
+        button.disabled = false;
+
+        button.innerHTML =
+            "🎤 Speak Now";
+    };
+
+
+    recognition.start();
+}
+
+
+/* ================================
+   FARMING ANSWER SYSTEM
+================================ */
+
+function getFarmingAnswer(question, language){
+
+    const q =
+        question.toLowerCase();
+
+
+    /* ENGLISH */
+
+    if(language === "en-IN"){
+
+        if(q.includes("rice") || q.includes("paddy")){
+
+            return "Rice generally needs suitable soil moisture, proper irrigation and balanced nutrients. Choose fertilizer based on soil-test results and crop growth stage.";
+        }
+
+        if(q.includes("water") || q.includes("irrigation")){
+
+            return "Irrigation should depend on crop type, soil moisture and weather conditions. Avoid both excessive watering and water stress.";
+        }
+
+        if(q.includes("fertilizer")){
+
+            return "Use fertilizer according to soil nutrient requirements. A soil test can help determine the appropriate nutrients and quantity.";
+        }
+
+        if(q.includes("pest") || q.includes("insect")){
+
+            return "Regularly inspect your crops for pest symptoms. Identify the pest first and use suitable integrated pest management methods.";
+        }
+
+        if(q.includes("disease")){
+
+            return "Check the leaves, stems and fruits for disease symptoms. Early identification can help prevent the disease from spreading.";
+        }
+
+        if(q.includes("weather") || q.includes("rain")){
+
+            return "Monitor local weather forecasts before irrigation, spraying or harvesting. Heavy rain can increase the risk of waterlogging and some crop diseases.";
+        }
+
+        if(q.includes("crop")){
+
+            return "Crop selection depends on soil type, climate, water availability, season and local market conditions.";
+        }
+
+        return "I can help with crop selection, irrigation, fertilizer guidance, pests, crop diseases and weather-related farming questions.";
+    }
+
+
+    /* TELUGU */
+
+    if(language === "te-IN"){
+
+        if(q.includes("rice") ||
+           q.includes("paddy") ||
+           q.includes("వరి")){
+
+            return "వరి పంటకు సరైన నేల తేమ, నీటి నిర్వహణ మరియు సమతుల్య పోషకాలు అవసరం. ఎరువుల మోతాదును నేల పరీక్ష ఆధారంగా నిర్ణయించడం మంచిది.";
+        }
+
+        if(q.includes("water") ||
+           q.includes("నీరు") ||
+           q.includes("irrigation")){
+
+            return "పంట రకం, నేల తేమ మరియు వాతావరణ పరిస్థితులను బట్టి నీరు ఇవ్వాలి. ఎక్కువ నీరు మరియు తక్కువ నీరు రెండింటినీ నివారించాలి.";
+        }
+
+        if(q.includes("fertilizer") ||
+           q.includes("ఎరువు")){
+
+            return "నేలలో అవసరమైన పోషకాల ఆధారంగా ఎరువులను ఉపయోగించాలి. నేల పరీక్ష ద్వారా సరైన పోషకాలు మరియు మోతాదును తెలుసుకోవచ్చు.";
+        }
+
+        if(q.includes("pest") ||
+           q.includes("insect") ||
+           q.includes("పురుగు")){
+
+            return "పంటను తరచుగా పరిశీలించి పురుగు లక్షణాలను గుర్తించండి. ముందుగా పురుగును గుర్తించి తగిన సమగ్ర పురుగు నియంత్రణ పద్ధతులను ఉపయోగించండి.";
+        }
+
+        if(q.includes("disease") ||
+           q.includes("వ్యాధి")){
+
+            return "ఆకులు, కాండం మరియు పండ్లపై వ్యాధి లక్షణాలను పరిశీలించండి. వ్యాధిని ముందుగా గుర్తించడం ద్వారా వ్యాప్తిని తగ్గించవచ్చు.";
+        }
+
+        if(q.includes("weather") ||
+           q.includes("rain") ||
+           q.includes("వర్షం")){
+
+            return "నీరు పెట్టడం, మందులు పిచికారీ చేయడం లేదా కోతకు ముందు స్థానిక వాతావరణ సూచనలను పరిశీలించండి.";
+        }
+
+        if(q.includes("crop") ||
+           q.includes("పంట")){
+
+            return "పంట ఎంపిక నేల రకం, వాతావరణం, నీటి లభ్యత, సీజన్ మరియు మార్కెట్ పరిస్థితులపై ఆధారపడి ఉంటుంది.";
+        }
+
+        return "పంట ఎంపిక, నీటిపారుదల, ఎరువులు, పురుగులు, పంట వ్యాధులు మరియు వాతావరణం గురించి నేను సహాయం చేయగలను.";
+    }
+
+
+    /* HINDI */
+
+    if(language === "hi-IN"){
+
+        if(q.includes("rice") ||
+           q.includes("paddy")){
+
+            return "धान की फसल के लिए उचित मिट्टी की नमी, सिंचाई और संतुलित पोषक तत्व आवश्यक हैं। उर्वरक की मात्रा मिट्टी की जांच के आधार पर तय करना बेहतर है।";
+        }
+
+        if(q.includes("water") ||
+           q.includes("irrigation")){
+
+            return "सिंचाई फसल के प्रकार, मिट्टी की नमी और मौसम के अनुसार करनी चाहिए। अधिक और कम दोनों तरह की सिंचाई से बचें।";
+        }
+
+        if(q.includes("fertilizer")){
+
+            return "उर्वरक का उपयोग मिट्टी की पोषक आवश्यकताओं के अनुसार करें। मिट्टी की जांच सही पोषक तत्व और मात्रा निर्धारित करने में मदद करती है।";
+        }
+
+        if(q.includes("pest") ||
+           q.includes("insect")){
+
+            return "फसल की नियमित जांच करें और कीट के लक्षण पहचानें। कीट की पहचान के बाद उचित नियंत्रण विधि अपनाएं।";
+        }
+
+        if(q.includes("disease")){
+
+            return "पत्तियों, तनों और फलों में रोग के लक्षण देखें। रोग की जल्दी पहचान करने से उसके फैलाव को कम किया जा सकता है।";
+        }
+
+        if(q.includes("weather") ||
+           q.includes("rain")){
+
+            return "सिंचाई, छिड़काव या कटाई से पहले स्थानीय मौसम की जानकारी जरूर देखें।";
+        }
+
+        if(q.includes("crop")){
+
+            return "फसल का चयन मिट्टी, मौसम, पानी की उपलब्धता, मौसम और स्थानीय बाजार की स्थिति पर निर्भर करता है।";
+        }
+
+        return "मैं फसल चयन, सिंचाई, उर्वरक, कीट, रोग और मौसम से संबंधित खेती के सवालों में मदद कर सकता हूं।";
+    }
+
+}
+
+
+/* ================================
+   TEXT TO SPEECH
+================================ */
+
+function speakAnswer(text, language){
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+    speech.lang = language;
+    speech.rate = 0.9;
+    speech.pitch = 1;
+
+    window.speechSynthesis.cancel();
+
+    window.speechSynthesis.speak(speech);
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Crop Recommendation</title>
+
+    <style>
+        /* ================= BASIC ================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8f5;
+            color: #183b28;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e1e9e3;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            color: #168548;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #52645a;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        .navbar a:hover {
+            color: #168548;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            background: linear-gradient(135deg, #e6f7eb, #f8fcf9);
+            padding: 65px 8%;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #d5f1de;
+            color: #16733d;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #66766d;
+            font-size: 16px;
+            max-width: 650px;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 45px auto;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            border: 1px solid #e1eae4;
+        }
+
+        .card h2 {
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: #718078;
+            margin-bottom: 30px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #395343;
+        }
+
+        input,
+        select {
+            height: 50px;
+            padding: 0 14px;
+            border: 1px solid #d4e0d8;
+            border-radius: 9px;
+            outline: none;
+            background: #fbfdfb;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2ba45c;
+            box-shadow: 0 0 0 3px rgba(43,164,92,0.1);
+        }
+
+        /* ================= BUTTON ================= */
+
+        .recommend-btn {
+            width: 100%;
+            margin-top: 30px;
+            height: 55px;
+            border: none;
+            border-radius: 10px;
+            background: #168548;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .recommend-btn:hover {
+            background: #116c3a;
+            transform: translateY(-2px);
+        }
+
+        /* ================= RESULT ================= */
+
+        #result {
+            display: none;
+            margin-top: 30px;
+            animation: appear 0.5s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .crop-icon {
+            width: 60px;
+            height: 60px;
+            background: #e4f7ea;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .result-label {
+            font-size: 11px;
+            color: #77847c;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        #cropName {
+            color: #13733d;
+            font-size: 30px;
+        }
+
+        /* ================= CONFIDENCE ================= */
+
+        .confidence {
+            margin-top: 25px;
+            background: #f4f9f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .confidence-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        #confidence {
+            color: #168548;
+            font-size: 20px;
+        }
+
+        .progress {
+            height: 9px;
+            background: #dce7df;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        #confidenceBar {
+            height: 100%;
+            width: 0%;
+            background: #2aa45c;
+            transition: width 1s ease;
+        }
+
+        /* ================= INFORMATION ================= */
+
+        .info {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f7fbf8;
+            border-left: 4px solid #2aa45c;
+            border-radius: 8px;
+        }
+
+        .info h3 {
+            margin-bottom: 7px;
+        }
+
+        .info p {
+            color: #637269;
+            font-size: 14px;
+        }
+
+        /* ================= RISK ================= */
+
+        .risk {
+            margin-top: 20px;
+            padding: 18px;
+            background: #fff8e9;
+            border: 1px solid #f1dfb6;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #risk {
+            color: #9b6a00;
+            font-weight: bold;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary {
+            margin-top: 25px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .summary-item {
+            padding: 16px;
+            border: 1px solid #e1e9e3;
+            border-radius: 10px;
+            background: #fbfdfb;
+        }
+
+        .summary-item span {
+            display: block;
+            font-size: 12px;
+            color: #7b8880;
+            margin-bottom: 5px;
+        }
+
+        .summary-item strong {
+            font-size: 14px;
+        }
+
+        /* ================= NEXT STEP ================= */
+
+        .next {
+            margin-top: 25px;
+            background: #e7f6ec;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .next h3 {
+            margin-bottom: 7px;
+        }
+
+        .next p {
+            color: #5c7164;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #123c25;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        footer span {
+            color: #bcd0c3;
+            font-size: 13px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 750px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .navbar a {
+                margin: 5px;
+                font-size: 12px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 450px) {
+
+            .hero {
+                padding: 45px 6%;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            🌱 Smart Farming AI
+        </div>
+
+        <div>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="crop.html">Crop AI</a>
+            <a href="disease.html">Disease</a>
+            <a href="irrigation.html">Irrigation</a>
+        </div>
+
+    </div>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <span class="badge">
+            🤖 AI POWERED
+        </span>
+
+        <h1>
+            Smart Crop Recommendation
+        </h1>
+
+        <p>
+            Get the best crop recommendation based on
+            your soil, rainfall, temperature and water availability.
+        </p>
+
+    </section>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <div class="container">
+
+        <!-- INPUT CARD -->
+
+        <div class="card">
+
+            <h2>
+                🌾 Farm Information
+            </h2>
+
+            <p class="card-description">
+                Enter your farm details to receive an AI-based recommendation.
+            </p>
+
+
+            <div class="form-grid">
+
+                <div class="input-group">
+
+                    <label>
+                        📍 Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="Example: Hyderabad"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        🌱 Soil Type
+                    </label>
+
+                    <select id="soil">
+
+                        <option value="">
+                            Select Soil
+                        </option>
+
+                        <option value="black">
+                            Black Soil
+                        </option>
+
+                        <option value="red">
+                            Red Soil
+                        </option>
+
+                        <option value="alluvial">
+                            Alluvial Soil
+                        </option>
+
+                        <option value="sandy">
+                            Sandy Soil
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        💧 Water Availability
+                    </label>
+
+                    <select id="water">
+
+                        <option value="">
+                            Select Water Availability
+                        </option>
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="medium">
+                            Medium
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        🌧️ Rainfall (mm)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rainfall"
+                        placeholder="Example: 80"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        🌡️ Temperature (°C)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="temperature"
+                        placeholder="Example: 28"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        📐 Farm Size (Acres)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="farmSize"
+                        placeholder="Example: 5"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="recommend-btn"
+                onclick="recommendCrop()">
+
+                🤖 Get AI Recommendation
+
+            </button>
+
+        </div>
+
+
+        <!-- ================= RESULT ================= -->
+
+        <div class="card" id="result">
+
+            <div class="result-header">
+
+                <div class="crop-icon">
+                    🌾
+                </div>
+
+                <div>
+
+                    <div class="result-label">
+                        AI RECOMMENDED CROP
+                    </div>
+
+                    <h2 id="cropName">
+                        -
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFIDENCE -->
+
+            <div class="confidence">
+
+                <div class="confidence-top">
+
+                    <span>
+                        AI Confidence
+                    </span>
+
+                    <strong id="confidence">
+                        0%
+                    </strong>
+
+                </div>
+
+                <div class="progress">
+
+                    <div id="confidenceBar"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REASON -->
+
+            <div class="info">
+
+                <h3>
+                    💡 Why this crop?
+                </h3>
+
+                <p id="reason">
+                </p>
+
+            </div>
+
+
+            <!-- RISK -->
+
+            <div class="risk">
+
+                <span>
+                    ⚠️ Farm Risk
+                </span>
+
+                <strong id="risk">
+                </strong>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="summary">
+
+                <h3>
+                    📊 Farm Summary
+                </h3>
+
+                <div class="summary-grid">
+
+                    <div class="summary-item">
+                        <span>Location</span>
+                        <strong id="showLocation">-</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Soil</span>
+                        <strong id="showSoil">-</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Rainfall</span>
+                        <strong id="showRainfall">-</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Temperature</span>
+                        <strong id="showTemperature">-</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEXT STEP -->
+
+            <div class="next">
+
+                <h3>
+                    🚜 Recommended Next Step
+                </h3>
+
+                <p id="nextStep">
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            🌱 Smart Farming AI
+        </p>
+
+        <span>
+            AI-powered agriculture for a smarter future.
+        </span>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        function recommendCrop() {
+
+            const location =
+                document.getElementById("location").value.trim();
+
+            const soil =
+                document.getElementById("soil").value;
+
+            const water =
+                document.getElementById("water").value;
+
+            const rainfall =
+                Number(
+                    document.getElementById("rainfall").value
+                );
+
+            const temperature =
+                Number(
+                    document.getElementById("temperature").value
+                );
+
+            const farmSize =
+                Number(
+                    document.getElementById("farmSize").value
+                );
+
+
+            /* VALIDATION */
+
+            if (
+                location === "" ||
+                soil === "" ||
+                water === "" ||
+                rainfall === 0 ||
+                temperature === 0 ||
+                farmSize === 0
+            ) {
+
+                alert(
+                    "Please enter all farm details."
+                );
+
+                return;
+            }
+
+
+            let crop;
+            let reason;
+            let confidence;
+            let risk;
+            let nextStep;
+
+
+            /* ================= AI LOGIC ================= */
+
+            if (
+                water === "low" &&
+                rainfall < 50
+            ) {
+
+                crop = "Millet";
+
+                reason =
+                    "Millet is suitable for low water availability and lower rainfall conditions.";
+
+                confidence = 94;
+
+                nextStep =
+                    "Use water-saving irrigation and regularly monitor soil moisture.";
+
+            }
+
+            else if (
+                soil === "black" &&
+                rainfall >= 50
+            ) {
+
+                crop = "Cotton";
+
+                reason =
+                    "Black soil with suitable rainfall conditions can support cotton cultivation.";
+
+                confidence = 93;
+
+                nextStep =
+                    "Prepare the soil properly and monitor moisture and pest conditions.";
+
+            }
+
+            else if (
+                soil === "red" &&
+                water !== "low"
+            ) {
+
+                crop = "Groundnut";
+
+                reason =
+                    "Red soil with sufficient water availability can be suitable for groundnut.";
+
+                confidence = 91;
+
+                nextStep =
+                    "Maintain suitable soil moisture and monitor crop growth.";
+
+            }
+
+            else if (
+                water === "high" &&
+                rainfall >= 80
+            ) {
+
+                crop = "Rice";
+
+                reason =
+                    "High water availability and rainfall conditions can support rice cultivation.";
+
+                confidence = 96;
+
+                nextStep =
+                    "Maintain proper water management and monitor rainfall.";
+
+            }
+
+            else {
+
+                crop = "Maize";
+
+                reason =
+                    "Maize is selected as a balanced crop option for the provided conditions.";
+
+                confidence = 86;
+
+                nextStep =
+                    "Monitor soil moisture, rainfall and crop growth regularly.";
+
+            }
+
+
+            /* ================= RISK ================= */
+
+            if (temperature > 38) {
+
+                risk = "High Temperature Risk";
+
+            }
+
+            else if (rainfall < 20) {
+
+                risk = "Low Rainfall Risk";
+
+            }
+
+            else if (rainfall > 150) {
+
+                risk = "Heavy Rainfall Risk";
+
+            }
+
+            else {
+
+                risk = "Low Risk";
+
+            }
+
+
+            /* ================= DISPLAY ================= */
+
+            document.getElementById("result").style.display =
+                "block";
+
+
+            document.getElementById("cropName").innerText =
+                crop;
+
+
+            document.getElementById("confidence").innerText =
+                confidence + "%";
+
+
+            document.getElementById("confidenceBar").style.width =
+                confidence + "%";
+
+
+            document.getElementById("reason").innerText =
+                reason;
+
+
+            document.getElementById("risk").innerText =
+                risk;
+
+
+            document.getElementById("nextStep").innerText =
+                nextStep;
+
+
+            /* SUMMARY */
+
+            document.getElementById("showLocation").innerText =
+                location;
+
+            document.getElementById("showSoil").innerText =
+                soil.charAt(0).toUpperCase() +
+                soil.slice(1);
+
+            document.getElementById("showRainfall").innerText =
+                rainfall + " mm";
+
+            document.getElementById("showTemperature").innerText =
+                temperature + " °C";
+
+
+            /* SCROLL */
+
+            document.getElementById("result")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+    </script>
+
+</body>
+</html>

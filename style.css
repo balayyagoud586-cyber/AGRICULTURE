@@ -1,0 +1,630 @@
+/* =====================================================
+   SMART FARMING AI - PROFESSIONAL CROP PAGE
+   ===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f8f5;
+    color: #183b28;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   NAVBAR
+   ===================================================== */
+
+.navbar {
+    width: 100%;
+    min-height: 70px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 1px solid #e4ece7;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 700;
+    color: #16733d;
+    white-space: nowrap;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.navbar nav a {
+    text-decoration: none;
+    color: #4a5f52;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.navbar nav a:hover,
+.navbar nav a.active {
+    color: #16834a;
+}
+
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.page-hero {
+    min-height: 280px;
+    padding: 70px 8%;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(
+        135deg,
+        #e9f8ee,
+        #f7fbf8
+    );
+    border-bottom: 1px solid #e1eee5;
+}
+
+.page-hero > div {
+    max-width: 800px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 7px 14px;
+    margin-bottom: 15px;
+    border-radius: 30px;
+    background: #d9f3e2;
+    color: #13723c;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+}
+
+.page-hero h1 {
+    font-size: 42px;
+    line-height: 1.15;
+    margin-bottom: 15px;
+    color: #123c25;
+}
+
+.page-hero p {
+    max-width: 650px;
+    color: #607267;
+    font-size: 17px;
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+   ===================================================== */
+
+.crop-container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 50px auto 80px;
+}
+
+
+/* =====================================================
+   INPUT CARD
+   ===================================================== */
+
+.crop-card {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 20px;
+    border: 1px solid #e2ebe5;
+    box-shadow: 0 10px 35px rgba(31, 72, 48, 0.07);
+}
+
+.card-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.card-heading .icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e4f7ea;
+    border-radius: 15px;
+    font-size: 27px;
+}
+
+.card-heading h2 {
+    font-size: 24px;
+    color: #173d28;
+}
+
+.card-heading p {
+    color: #728077;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   FORM GRID
+   ===================================================== */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    margin-bottom: 8px;
+    color: #345141;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    border: 1px solid #d5e1d9;
+    border-radius: 10px;
+    background: #fbfdfb;
+    color: #294536;
+    font-size: 14px;
+    outline: none;
+    transition: 0.25s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #35a866;
+    box-shadow: 0 0 0 3px rgba(53, 168, 102, 0.1);
+    background: #ffffff;
+}
+
+.input-group input::placeholder {
+    color: #9aa89f;
+}
+
+
+/* =====================================================
+   AI BUTTON
+   ===================================================== */
+
+.ai-button {
+    width: 100%;
+    margin-top: 30px;
+    height: 55px;
+    border: none;
+    border-radius: 11px;
+    background: #188548;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ai-button:hover {
+    background: #116b39;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(24, 133, 72, 0.2);
+}
+
+.ai-button:active {
+    transform: translateY(0);
+}
+
+
+/* =====================================================
+   RESULT CARD
+   ===================================================== */
+
+.result-card {
+    margin-top: 30px;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #dce9e0;
+    box-shadow: 0 10px 35px rgba(31, 72, 48, 0.08);
+    animation: resultAppear 0.5s ease;
+}
+
+@keyframes resultAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   RESULT HEADER
+   ===================================================== */
+
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e7eee9;
+}
+
+.result-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #e5f7eb;
+    font-size: 30px;
+}
+
+.small-title {
+    color: #718078;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.result-header h2 {
+    color: #126c39;
+    font-size: 30px;
+}
+
+
+/* =====================================================
+   CONFIDENCE
+   ===================================================== */
+
+.confidence-box {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 14px;
+    background: #f5faf6;
+}
+
+.confidence-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.confidence-top span {
+    font-size: 14px;
+    color: #52665a;
+    font-weight: 600;
+}
+
+.confidence-top strong {
+    color: #168247;
+    font-size: 20px;
+}
+
+.progress {
+    width: 100%;
+    height: 9px;
+    background: #dfe9e2;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0;
+    height: 100%;
+    background: #28a65c;
+    border-radius: 20px;
+    transition: width 1s ease;
+}
+
+
+/* =====================================================
+   RESULT INFORMATION
+   ===================================================== */
+
+.result-info {
+    margin-top: 25px;
+    padding: 22px;
+    border-left: 4px solid #28a65c;
+    background: #f7fbf8;
+    border-radius: 8px;
+}
+
+.result-info h3 {
+    margin-bottom: 8px;
+    color: #234532;
+    font-size: 16px;
+}
+
+.result-info p {
+    color: #617167;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   RISK
+   ===================================================== */
+
+.risk-box {
+    margin-top: 20px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff9ed;
+    border: 1px solid #f2e3bf;
+    border-radius: 12px;
+}
+
+.risk-box span {
+    color: #695a37;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.risk-box strong {
+    color: #9a6a00;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   FARM SUMMARY
+   ===================================================== */
+
+.farm-summary {
+    margin-top: 25px;
+}
+
+.farm-summary h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #244735;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.summary-grid > div {
+    padding: 18px;
+    border: 1px solid #e0e9e3;
+    border-radius: 12px;
+    background: #fbfdfb;
+}
+
+.summary-grid span {
+    display: block;
+    color: #7b8980;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.summary-grid strong {
+    color: #294d38;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   NEXT ACTION
+   ===================================================== */
+
+.next-action {
+    margin-top: 25px;
+    padding: 22px;
+    border-radius: 14px;
+    background: #eaf7ef;
+}
+
+.next-action h3 {
+    margin-bottom: 7px;
+    color: #185c35;
+    font-size: 17px;
+}
+
+.next-action p {
+    color: #567061;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+footer {
+    padding: 35px 20px;
+    text-align: center;
+    background: #123c25;
+    color: #ffffff;
+}
+
+footer p {
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+footer span {
+    color: #bdd1c3;
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   RESPONSIVE DESIGN
+   ===================================================== */
+
+@media (max-width: 1000px) {
+
+    .navbar {
+        padding: 0 4%;
+    }
+
+    .navbar nav {
+        gap: 14px;
+    }
+
+    .navbar nav a {
+        font-size: 12px;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .navbar {
+        min-height: auto;
+        padding: 18px 5%;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .navbar nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-hero {
+        padding: 50px 7%;
+    }
+
+    .page-hero h1 {
+        font-size: 32px;
+    }
+
+    .page-hero p {
+        font-size: 15px;
+    }
+
+    .crop-container {
+        width: 92%;
+        margin-top: 30px;
+    }
+
+    .crop-card,
+    .result-card {
+        padding: 24px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .navbar nav {
+        gap: 10px;
+    }
+
+    .navbar nav a {
+        font-size: 11px;
+    }
+
+    .page-hero h1 {
+        font-size: 27px;
+    }
+
+    .card-heading h2 {
+        font-size: 20px;
+    }
+
+    .result-header h2 {
+        font-size: 25px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .risk-box {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+}
+.language-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.language-box select {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+}
+
+.voice-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: #16803c;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.voice-btn:hover {
+    background: #0f642e;
+}
+
+@media (max-width: 768px) {
+    .language-box {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .language-box select {
+        flex: 1;
+    }
+}
