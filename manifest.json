@@ -1,0 +1,9 @@
+{
+  "name": "Smart Farming AI",
+  "short_name": "Smart Farming",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#16843b",
+  "description": "AI-powered Smart Farming Assistant"
+}
