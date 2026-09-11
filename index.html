@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Farming AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f8f5;
+    color:#173b24;
+}
+
+/* NAVBAR */
+
+nav{
+    background:white;
+    padding:15px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 12px rgba(0,0,0,.08);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:bold;
+    color:#16803c;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#173b24;
+    font-size:14px;
+    font-weight:600;
+}
+
+.nav-links a:hover{
+    color:#16803c;
+}
+
+.language-area{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+#languageSelect{
+    padding:9px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    background:white;
+    cursor:pointer;
+}
+
+.voice-btn{
+    border:none;
+    background:#16803c;
+    color:white;
+    padding:9px 13px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.voice-btn:hover{
+    background:#0e632e;
+}
+
+/* HERO */
+
+.hero{
+    min-height:450px;
+    padding:80px 8%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:linear-gradient(120deg,#e6f7eb,#ffffff);
+}
+
+.hero-content{
+    max-width:650px;
+}
+
+.hero h1{
+    font-size:48px;
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+    color:#16803c;
+}
+
+.hero p{
+    font-size:18px;
+    line-height:1.7;
+    color:#607565;
+    margin-bottom:25px;
+}
+
+.buttons{
+    display:flex;
+    gap:12px;
+}
+
+.primary-btn,
+.secondary-btn{
+    padding:13px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    border:none;
+}
+
+.primary-btn{
+    background:#16803c;
+    color:white;
+}
+
+.secondary-btn{
+    background:white;
+    color:#16803c;
+    border:1px solid #16803c;
+}
+
+/* FARM CARD */
+
+.farm-card{
+    background:white;
+    padding:25px;
+    width:320px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+.farm-card h3{
+    margin-bottom:20px;
+}
+
+.health{
+    font-size:40px;
+    color:#16803c;
+    font-weight:bold;
+}
+
+.progress{
+    height:12px;
+    background:#e5e5e5;
+    border-radius:20px;
+    margin:15px 0;
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:87%;
+    height:100%;
+    background:#16803c;
+}
+
+/* SECTION */
+
+section{
+    padding:60px 8%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.section-title h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.section-title p{
+    color:#66756a;
+}
+
+/* FEATURES */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.feature{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+    transition:.3s;
+}
+
+.feature:hover{
+    transform:translateY(-5px);
+}
+
+.icon{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.feature h3{
+    margin-bottom:10px;
+}
+
+.feature p{
+    color:#68766d;
+    line-height:1.5;
+}
+
+/* FARMING CYCLE */
+
+.cycle{
+    background:#eaf6ed;
+}
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.step{
+    background:white;
+    padding:22px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.step-number{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#16803c;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 12px;
+    font-weight:bold;
+}
+
+/* VOICE BOX */
+
+.voice-section{
+    text-align:center;
+}
+
+.voice-box{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 7px 25px rgba(0,0,0,.08);
+}
+
+.voice-box h2{
+    margin-bottom:15px;
+}
+
+.voice-box p{
+    color:#66756a;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+.big-voice{
+    font-size:18px;
+    padding:14px 28px;
+}
+
+/* FOOTER */
+
+footer{
+    background:#12351f;
+    color:white;
+    text-align:center;
+    padding:30px;
+}
+
+footer p{
+    margin:7px;
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .steps{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero{
+        flex-direction:column;
+        gap:40px;
+    }
+}
+
+@media(max-width:700px){
+
+    nav{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero{
+        padding:50px 6%;
+        text-align:center;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .buttons{
+        justify-content:center;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .steps{
+        grid-template-columns:1fr;
+    }
+
+    .farm-card{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        🌱 Smart Farming AI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#home" data-lang="home">Home</a>
+
+        <a href="#features" data-lang="features">
+            Features
+        </a>
+
+        <a href="#cycle" data-lang="cycle">
+            Farming Cycle
+        </a>
+
+        <a href="#voice" data-lang="voice">
+            Voice
+        </a>
+
+        <div class="language-area">
+
+            <select id="languageSelect"
+                    onchange="changeLanguage()">
+
+                <option value="en">
+                    🇬🇧 English
+                </option>
+
+                <option value="te">
+                    🇮🇳 తెలుగు
+                </option>
+
+                <option value="hi">
+                    🇮🇳 हिन्दी
+                </option>
+
+            </select>
+
+            <button class="voice-btn"
+                    onclick="speakPage()">
+                🔊
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <h1 data-lang="welcome">
+            Smart Farming with
+            <span>Artificial Intelligence</span>
+        </h1>
+
+        <p data-lang="heroText">
+            AI-powered assistance for crop recommendation,
+            disease detection, smart irrigation, fertilizer
+            guidance, weather alerts and market information.
+        </p>
+
+        <div class="buttons">
+
+            <button class="primary-btn"
+                    onclick="goDashboard()"
+                    data-lang="dashboardBtn">
+                Go to Dashboard
+            </button>
+
+            <button class="secondary-btn"
+                    onclick="speakPage()"
+                    data-lang="listenBtn">
+                🔊 Listen
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="farm-card">
+
+        <h3 data-lang="farmHealth">
+            🌱 Farm Health
+        </h3>
+
+        <div class="health">
+            87%
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar"></div>
+        </div>
+
+        <p data-lang="goodCondition">
+            Your farm is currently in good condition.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section id="features">
+
+    <div class="section-title">
+
+        <h2 data-lang="featuresTitle">
+            AI Farming Features
+        </h2>
+
+        <p data-lang="featuresSubtitle">
+            Smart tools to help farmers make better decisions.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="icon">🌾</div>
+
+            <h3 data-lang="crop">
+                Crop Recommendation
+            </h3>
+
+            <p data-lang="cropDesc">
+                Get suitable crop suggestions based on
+                farm conditions.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">🔬</div>
+
+            <h3 data-lang="disease">
+                Disease Detection
+            </h3>
+
+            <p data-lang="diseaseDesc">
+                Upload crop images and identify possible
+                crop diseases.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">💧</div>
+
+            <h3 data-lang="irrigation">
+                Smart Irrigation
+            </h3>
+
+            <p data-lang="irrigationDesc">
+                Get guidance on when your crop needs water.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">🧪</div>
+
+            <h3 data-lang="fertilizer">
+                Fertilizer Guidance
+            </h3>
+
+            <p data-lang="fertilizerDesc">
+                Get fertilizer recommendations based on
+                soil nutrients.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">🔮</div>
+
+            <h3 data-lang="simulator">
+                Future Crop Simulator
+            </h3>
+
+            <p data-lang="simulatorDesc">
+                Explore possible crop outcomes before planting.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">🌦️</div>
+
+            <h3 data-lang="weather">
+                Weather & Risk
+            </h3>
+
+            <p data-lang="weatherDesc">
+                Receive weather and farming risk alerts.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">📈</div>
+
+            <h3 data-lang="market">
+                Market Information
+            </h3>
+
+            <p data-lang="marketDesc">
+                Get market information to support selling decisions.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">🤖</div>
+
+            <h3 data-lang="assistant">
+                AI Farming Assistant
+            </h3>
+
+            <p data-lang="assistantDesc">
+                Ask questions and receive farming guidance.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FARMING CYCLE ================= -->
+
+<section class="cycle" id="cycle">
+
+    <div class="section-title">
+
+        <h2 data-lang="cycleTitle">
+            Complete Farming Cycle
+        </h2>
+
+        <p data-lang="cycleSubtitle">
+            AI support throughout the farming journey.
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">1</div>
+
+            <h3 data-lang="step1">
+                Choose Crop
+            </h3>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">2</div>
+
+            <h3 data-lang="step2">
+                Manage Crop
+            </h3>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">3</div>
+
+            <h3 data-lang="step3">
+                Detect Problems
+            </h3>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">4</div>
+
+            <h3 data-lang="step4">
+                Get Alerts
+            </h3>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">5</div>
+
+            <h3 data-lang="step5">
+                Sell Crop
+            </h3>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= VOICE ================= -->
+
+<section class="voice-section" id="voice">
+
+    <div class="voice-box">
+
+        <h2 data-lang="voiceTitle">
+            🔊 Voice Farming Assistant
+        </h2>
+
+        <p data-lang="voiceDescription">
+            Select English, Telugu or Hindi and listen
+            to farming information in your preferred language.
+        </p>
+
+        <button class="voice-btn big-voice"
+                onclick="speakPage()">
+
+            🔊 <span data-lang="speak">
+                Speak Now
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <h3>
+        🌱 Smart Farming AI
+    </h3>
+
+    <p data-lang="footerText">
+        AI-powered technology for smarter and sustainable farming.
+    </p>
+
+    <p>
+        © 2026 Smart Farming AI
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   LANGUAGE DATA
+===================================================== */
+
+const translations = {
+
+en: {
+
+home:"Home",
+features:"Features",
+cycle:"Farming Cycle",
+voice:"Voice",
+
+welcome:"Smart Farming with Artificial Intelligence",
+
+heroText:
+"AI-powered assistance for crop recommendation, disease detection, smart irrigation, fertilizer guidance, weather alerts and market information.",
+
+dashboardBtn:"Go to Dashboard",
+listenBtn:"🔊 Listen",
+
+farmHealth:"🌱 Farm Health",
+
+goodCondition:
+"Your farm is currently in good condition.",
+
+featuresTitle:"AI Farming Features",
+
+featuresSubtitle:
+"Smart tools to help farmers make better decisions.",
+
+crop:"Crop Recommendation",
+
+cropDesc:
+"Get suitable crop suggestions based on farm conditions.",
+
+disease:"Disease Detection",
+
+diseaseDesc:
+"Upload crop images and identify possible crop diseases.",
+
+irrigation:"Smart Irrigation",
+
+irrigationDesc:
+"Get guidance on when your crop needs water.",
+
+fertilizer:"Fertilizer Guidance",
+
+fertilizerDesc:
+"Get fertilizer recommendations based on soil nutrients.",
+
+simulator:"Future Crop Simulator",
+
+simulatorDesc:
+"Explore possible crop outcomes before planting.",
+
+weather:"Weather & Risk",
+
+weatherDesc:
+"Receive weather and farming risk alerts.",
+
+market:"Market Information",
+
+marketDesc:
+"Get market information to support selling decisions.",
+
+assistant:"AI Farming Assistant",
+
+assistantDesc:
+"Ask questions and receive farming guidance.",
+
+cycleTitle:"Complete Farming Cycle",
+
+cycleSubtitle:
+"AI support throughout the farming journey.",
+
+step1:"Choose Crop",
+step2:"Manage Crop",
+step3:"Detect Problems",
+step4:"Get Alerts",
+step5:"Sell Crop",
+
+voiceTitle:"🔊 Voice Farming Assistant",
+
+voiceDescription:
+"Select English, Telugu or Hindi and listen to farming information in your preferred language.",
+
+speak:"Speak Now",
+
+footerText:
+"AI-powered technology for smarter and sustainable farming."
+
+},
+
+
+te: {
+
+home:"హోమ్",
+features:"ఫీచర్లు",
+cycle:"వ్యవసాయ చక్రం",
+voice:"వాయిస్",
+
+welcome:"కృత్రిమ మేధస్సుతో స్మార్ట్ వ్యవసాయం",
+
+heroText:
+"పంట సిఫార్సు, వ్యాధి గుర్తింపు, స్మార్ట్ నీటిపారుదల, ఎరువుల సలహా, వాతావరణ హెచ్చరికలు మరియు మార్కెట్ సమాచారం కోసం AI ఆధారిత సహాయం.",
+
+dashboardBtn:"డ్యాష్‌బోర్డ్‌కు వెళ్లండి",
+listenBtn:"🔊 వినండి",
+
+farmHealth:"🌱 పంట ఆరోగ్యం",
+
+goodCondition:
+"మీ పంట ప్రస్తుతం మంచి స్థితిలో ఉంది.",
+
+featuresTitle:"AI వ్యవసాయ ఫీచర్లు",
+
+featuresSubtitle:
+"రైతులు మంచి నిర్ణయాలు తీసుకోవడానికి స్మార్ట్ సాధనాలు.",
+
+crop:"పంట సిఫార్సు",
+
+cropDesc:
+"వ్యవసాయ పరిస్థితుల ఆధారంగా సరైన పంటను సిఫార్సు చేస్తుంది.",
+
+disease:"వ్యాధి గుర్తింపు",
+
+diseaseDesc:
+"పంట చిత్రాన్ని అప్‌లోడ్ చేసి వ్యాధులను గుర్తించండి.",
+
+irrigation:"స్మార్ట్ నీటిపారుదల",
+
+irrigationDesc:
+"పంటకు ఎప్పుడు నీరు అవసరమో తెలుసుకోండి.",
+
+fertilizer:"ఎరువుల సలహా",
+
+fertilizerDesc:
+"నేలలోని పోషకాల ఆధారంగా ఎరువుల సలహా పొందండి.",
+
+simulator:"భవిష్యత్ పంట సిమ్యులేటర్",
+
+simulatorDesc:
+"పంటను నాటే ముందు భవిష్యత్ ఫలితాలను పరిశీలించండి.",
+
+weather:"వాతావరణం & ప్రమాదం",
+
+weatherDesc:
+"వాతావరణం మరియు వ్యవసాయ ప్రమాద హెచ్చరికలను పొందండి.",
+
+market:"మార్కెట్ సమాచారం",
+
+marketDesc:
+"పంటను అమ్మడానికి మార్కెట్ సమాచారాన్ని పొందండి.",
+
+assistant:"AI వ్యవసాయ సహాయకుడు",
+
+assistantDesc:
+"ప్రశ్నలు అడిగి వ్యవసాయ సలహాలను పొందండి.",
+
+cycleTitle:"పూర్తి వ్యవసాయ చక్రం",
+
+cycleSubtitle:
+"వ్యవసాయ ప్రయాణంలో ప్రతి దశలో AI సహాయం.",
+
+step1:"పంట ఎంచుకోండి",
+step2:"పంట నిర్వహణ",
+step3:"సమస్యలను గుర్తించండి",
+step4:"హెచ్చరికలు పొందండి",
+step5:"పంటను అమ్మండి",
+
+voiceTitle:"🔊 వాయిస్ వ్యవసాయ సహాయకుడు",
+
+voiceDescription:
+"తెలుగు, హిందీ లేదా ఇంగ్లీష్ ఎంచుకుని మీకు నచ్చిన భాషలో వ్యవసాయ సమాచారాన్ని వినండి.",
+
+speak:"ఇప్పుడే మాట్లాడండి",
+
+footerText:
+"స్మార్ట్ మరియు స్థిరమైన వ్యవసాయం కోసం AI సాంకేతికత."
+
+},
+
+
+hi: {
+
+home:"होम",
+features:"फीचर्स",
+cycle:"खेती का चक्र",
+voice:"वॉयस",
+
+welcome:"कृत्रिम बुद्धिमत्ता के साथ स्मार्ट खेती",
+
+heroText:
+"फसल सुझाव, रोग पहचान, स्मार्ट सिंचाई, उर्वरक सलाह, मौसम अलर्ट और बाजार जानकारी के लिए AI आधारित सहायता।",
+
+dashboardBtn:"डैशबोर्ड पर जाएं",
+listenBtn:"🔊 सुनें",
+
+farmHealth:"🌱 फसल स्वास्थ्य",
+
+goodCondition:
+"आपकी फसल अभी अच्छी स्थिति में है।",
+
+featuresTitle:"AI खेती के फीचर्स",
+
+featuresSubtitle:
+"किसानों को बेहतर निर्णय लेने में मदद करने वाले स्मार्ट उपकरण।",
+
+crop:"फसल सुझाव",
+
+cropDesc:
+"खेती की परिस्थितियों के आधार पर सही फसल का सुझाव प्राप्त करें।",
+
+disease:"रोग पहचान",
+
+diseaseDesc:
+"फसल की तस्वीर अपलोड करके संभावित रोगों की पहचान करें।",
+
+irrigation:"स्मार्ट सिंचाई",
+
+irrigationDesc:
+"जानें कि आपकी फसल को कब पानी की आवश्यकता है।",
+
+fertilizer:"उर्वरक सलाह",
+
+fertilizerDesc:
+"मिट्टी के पोषक तत्वों के आधार पर उर्वरक की सलाह प्राप्त करें।",
+
+simulator:"भविष्य फसल सिम्युलेटर",
+
+simulatorDesc:
+"फसल लगाने से पहले संभावित परिणामों को देखें।",
+
+weather:"मौसम और जोखिम",
+
+weatherDesc:
+"मौसम और खेती से जुड़े जोखिम अलर्ट प्राप्त करें।",
+
+market:"बाजार जानकारी",
+
+marketDesc:
+"फसल बेचने के निर्णय के लिए बाजार की जानकारी प्राप्त करें।",
+
+assistant:"AI खेती सहायक",
+
+assistantDesc:
+"प्रश्न पूछें और खेती से संबंधित सलाह प्राप्त करें।",
+
+cycleTitle:"संपूर्ण खेती का चक्र",
+
+cycleSubtitle:
+"खेती की पूरी यात्रा में AI सहायता।",
+
+step1:"फसल चुनें",
+step2:"फसल प्रबंधन",
+step3:"समस्याओं की पहचान",
+step4:"अलर्ट प्राप्त करें",
+step5:"फसल बेचें",
+
+voiceTitle:"🔊 वॉयस खेती सहायक",
+
+voiceDescription:
+"अंग्रेजी, तेलुगु या हिंदी चुनें और अपनी पसंदीदा भाषा में खेती की जानकारी सुनें।",
+
+speak:"अभी बोलें",
+
+footerText:
+"स्मार्ट और टिकाऊ खेती के लिए AI तकनीक।"
+
+}
+
+};
+
+
+/* =====================================================
+   CURRENT LANGUAGE
+===================================================== */
+
+let currentLanguage =
+localStorage.getItem("language") || "en";
+
+
+document.addEventListener("DOMContentLoaded",function(){
+
+    document.getElementById("languageSelect").value =
+        currentLanguage;
+
+    translatePage();
+
+});
+
+
+/* =====================================================
+   CHANGE LANGUAGE
+===================================================== */
+
+function changeLanguage(){
+
+    currentLanguage =
+        document.getElementById("languageSelect").value;
+
+    localStorage.setItem(
+        "language",
+        currentLanguage
+    );
+
+    translatePage();
+
+}
+
+
+/* =====================================================
+   TRANSLATE ENTIRE PAGE
+===================================================== */
+
+function translatePage(){
+
+    const languageData =
+        translations[currentLanguage];
+
+    document.querySelectorAll("[data-lang]")
+        .forEach(function(element){
+
+            const key =
+                element.getAttribute("data-lang");
+
+            if(languageData[key]){
+
+                element.textContent =
+                    languageData[key];
+
+            }
+
+        });
+
+}
+
+
+/* =====================================================
+   VOICE
+===================================================== */
+
+function speakPage(){
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if(!SpeechRecognition){
+        alert(
+            "Voice recognition is not supported. Please open this website in Google Chrome."
+        );
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    if(currentLanguage === "te"){
+        recognition.lang = "te-IN";
+    }
+    else if(currentLanguage === "hi"){
+        recognition.lang = "hi-IN";
+    }
+    else{
+        recognition.lang = "en-IN";
+    }
+
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    const button = document.querySelector(".big-voice");
+
+    if(button){
+        button.innerHTML = "🎤 Listening...";
+        button.disabled = true;
+    }
+
+    recognition.onstart = function(){
+        console.log("🎤 Listening...");
+    };
+
+    recognition.onresult = function(event){
+
+        const text = event.results[0][0].transcript;
+
+        let resultBox = document.getElementById("voiceResult");
+
+        if(!resultBox){
+            resultBox = document.createElement("p");
+            resultBox.id = "voiceResult";
+            resultBox.style.marginTop = "20px";
+            resultBox.style.fontSize = "18px";
+            resultBox.style.fontWeight = "bold";
+            resultBox.style.color = "#16803c";
+
+            document.querySelector(".voice-box").appendChild(resultBox);
+        }
+
+        resultBox.textContent = "🗣️ You said: " + text;
+
+        let response = "Your farming question has been received.";
+
+        if(currentLanguage === "te"){
+            response = "మీ వ్యవసాయ ప్రశ్న అందింది.";
+        }
+        else if(currentLanguage === "hi"){
+            response = "आपका खेती से संबंधित प्रश्न प्राप्त हो गया है.";
+        }
+
+        const speech = new SpeechSynthesisUtterance(response);
+        speech.lang = recognition.lang;
+        speech.rate = 0.9;
+        speech.pitch = 1;
+
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(speech);
+    };
+
+    recognition.onerror = function(event){
+
+        console.log("Voice error:", event.error);
+
+        if(event.error === "not-allowed"){
+            alert(
+            );
+        }
+        else if(event.error === "no-speech"){
+            alert(
+                
+            );
+        }
+        else{
+            alert("❌ Microphone error: " + event.error);
+        }
+    };
+
+    recognition.onend = function(){
+
+        if(button){
+            button.innerHTML =
+                '🔊 <span data-lang="speak">Speak Now</span>';
+            button.disabled = false;
+        }
+    };
+
+    try{
+        recognition.start();
+    }
+    catch(error){
+        console.log(error);
+        alert("Microphone start avvaledu. Please try again.");
+    }
+}
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function goDashboard(){
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+</script>
+
+</body>
+</html>
